@@ -3,7 +3,7 @@
 settings = {
     logfile = "/tmp/lsyncd.log",
     statusFile = "/tmp/lsyncd.status",
-    nodaemon = true
+    nodaemon = false
 }
 
 sync {
