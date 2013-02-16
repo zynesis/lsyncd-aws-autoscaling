@@ -1,2 +1,4 @@
 .DS_Store
 lsyncd.conf.lua
+config.php
+vendor/

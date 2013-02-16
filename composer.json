@@ -1,0 +1,6 @@
+{
+    "require": {
+        "mustache/mustache": "2.1.*",
+        "aws/aws-sdk-php": "2.*"
+    }
+}
