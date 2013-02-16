@@ -70,4 +70,5 @@ $data = array(
     'generation_time' => date('r')
 );
 
-echo $mustache->render(file_get_contents($APP_CONF['lsyncd_conf_template']), $data);
+$lsyncdConf = $mustache->render(file_get_contents($APP_CONF['lsyncd_conf_template']), $data);
+file_put_contents($APP_CONF['data_dir'] . 'lsyncd.conf.lua', $lsyncdConf);
