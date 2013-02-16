@@ -2,3 +2,4 @@
 lsyncd.conf.lua
 config.php
 vendor/
+data/
