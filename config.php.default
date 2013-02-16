@@ -1,0 +1,23 @@
+<?php
+/**
+ * App configurations
+ */
+$AWS_CONF = array(
+    'key' => 'AWS Access Key ID',
+    'secret' => 'AWS Secret Key',
+    'region' => 'ap-southeast-1',
+    'load_balancer_name' => 'name of load balancer'
+);
+
+/**
+ * Lsyncd configurations
+ */
+$LSYNCD_CONF = array(
+    'log_file' => '/tmp/lsyncd.log',
+    'status_file' => '/tmp/lsyncd.status',
+    'delay' => 0,                          // in seconds
+    'source' => '/path/to/source',
+    'ssh_user' => 'ubuntu',
+    'ssh_private_key' => '/path/to/private_key.pem',
+    'target_dir' => '/path/to/target',
+);
