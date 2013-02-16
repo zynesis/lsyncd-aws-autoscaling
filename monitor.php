@@ -46,7 +46,6 @@ if (empty($slaves)) {
 $ec2Client = $aws->get('Ec2');
 
 $ec2Instances = $ec2Client->describeInstances(array('InstanceIds' => $slaves));
-//print_r($slaves);
 
 if (empty($ec2Instances)) {
     trigger_error('Unable to obtain description of slave EC2 instances.', E_USER_ERROR);
@@ -61,3 +60,14 @@ foreach ($ec2Instances['Reservations'] as $reservation) {
         $privateDNSNames[$instance['InstanceId']] = $instance['PrivateDnsName'];
     }
 }
+
+
+/**
+ * Generate lsyncd.conf.lua
+ */
+$mustache = new Mustache_Engine;
+$data = array(
+    'generation_time' => date('r')
+);
+
+echo $mustache->render(file_get_contents($APP_CONF['lsyncd_conf_template']), $data);
