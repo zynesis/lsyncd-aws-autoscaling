@@ -28,3 +28,13 @@ if (empty($balancers['LoadBalancerDescriptions'][0]['Instances'])) {
 }
 
 $instances = $balancers['LoadBalancerDescriptions'][0]['Instances'];
+
+$slaves = array();
+foreach ($instances as $instance) {
+    $instanceID = $instance['InstanceId'];
+    if ($instanceID != $AWS_CONF['master_ec2_instance_id']) {
+        $slaves[] = $instanceID;
+    }
+}
+
+print_r($slaves);
