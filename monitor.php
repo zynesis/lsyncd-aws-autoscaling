@@ -6,6 +6,7 @@
  * 3. Restart existing lsyncd
  */
 require 'config.php';
+require 'utilities.php';
 require 'vendor/autoload.php';
 
 use Aws\Common\Aws;
@@ -42,6 +43,14 @@ foreach ($elbEc2instances as $instance) {
 if (empty($slaves)) {
     trigger_error('No slave instances found.', E_USER_ERROR);
 }
+
+if (!hasSlavesChanged($slaves, $APP_CONF['data_dir'] . 'slaves')) {
+    echo "No changes in slaves.\n";
+    echo "Terminating.\n";
+    exit();
+}
+
+echo "There are changes in slaves.\n";
 
 $ec2Client = $aws->get('Ec2');
 
