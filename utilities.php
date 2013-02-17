@@ -1,5 +1,7 @@
 <?php
 
+use Liip\ProcessManager\ProcessManager;
+
 /**
  * Check if slaves fingerprint has changed
  *
@@ -31,14 +33,22 @@ function hasSlavesChanged($slaves, $fileLocation)
 
 
 /**
- * Check if Lsyncd is still running fine
- * 
+ * Check if Lsyncd is still alive
+ * If it is not, start it
+ *
  * @param array $APP_CONF Application configuration
  */
-function isLSyncdRunning($APP_CONF)
+function keepLSyncdAlive($APP_CONF)
 {
-    $processManager = new ProcessManager();
-    $pid = $processManager->execProcess($APP_CONF['path_to_lsyncd'] . ' ' . $APP_CONF['data_dir'] . 'lsyncd.conf.lua');
-    echo $pid;
-    exit();
+    $lock = new PidFile(new ProcessManager(), $APP_CONF['data_dir'] . 'lsyncd.pid');
+    
+    if ($lock->isProcessRunning()) {
+        echo "Lsyncd is still running fine.";
+        return;
+    }
+    
+    $lock->acquireLock();
+    $pid = $lock->execProcess($APP_CONF['path_to_lsyncd'] . ' ' . $APP_CONF['data_dir'] . 'lsyncd.conf.lua');
+    
+    return;
 }
