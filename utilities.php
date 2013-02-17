@@ -43,9 +43,12 @@ function keepLSyncdAlive($APP_CONF)
     $lock = new PidFile(new ProcessManager(), $APP_CONF['data_dir'] . 'lsyncd.pid');
     
     if ($lock->isProcessRunning()) {
-        echo "Lsyncd is still running fine.";
+        echo "Lsyncd is still running fine.\n";
         return;
     }
+    
+    echo "Lsyncd is not active.\n";
+    echo "Starting Lsyncd.\n";
     
     $lock->acquireLock();
     $pid = $lock->execProcess($APP_CONF['path_to_lsyncd'] . ' ' . $APP_CONF['data_dir'] . 'lsyncd.conf.lua');
