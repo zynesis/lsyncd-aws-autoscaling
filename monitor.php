@@ -32,19 +32,19 @@ if (empty($balancers['LoadBalancerDescriptions'][0]['Instances'])) {
 
 $elbEc2instances = $balancers['LoadBalancerDescriptions'][0]['Instances'];
 
-$slaves = array();
+$slavesIDs = array();
 foreach ($elbEc2instances as $instance) {
     $instanceID = $instance['InstanceId'];
     if ($instanceID != $AWS_CONF['master_ec2_instance_id']) {
-        $slaves[] = $instanceID;
+        $slavesIDs[] = $instanceID;
     }
 }
 
-if (empty($slaves)) {
+if (empty($slavesIDs)) {
     trigger_error('No slave instances found.', E_USER_ERROR);
 }
 
-if (!hasSlavesChanged($slaves, $APP_CONF['data_dir'] . 'slaves')) {
+if (!hasSlavesChanged($slavesIDs, $APP_CONF['data_dir'] . 'slaves')) {
     echo "No changes in slaves.\n";
     echo "Terminating.\n";
     exit();
@@ -54,19 +54,22 @@ echo "There are changes in slaves.\n";
 
 $ec2Client = $aws->get('Ec2');
 
-$ec2Instances = $ec2Client->describeInstances(array('InstanceIds' => $slaves));
+$ec2Instances = $ec2Client->describeInstances(array('InstanceIds' => $slavesIDs));
 
 if (empty($ec2Instances)) {
     trigger_error('Unable to obtain description of slave EC2 instances.', E_USER_ERROR);
 }
 
-$privateDNSNames = array();
+$slaves = array();
 
 foreach ($ec2Instances['Reservations'] as $reservation) {
     $instances = $reservation['Instances'];
     
     foreach ($instances as $instance) {
-        $privateDNSNames[$instance['InstanceId']] = $instance['PrivateDnsName'];
+        $slaves[] = array(            
+            'instance_id' => $instance['InstanceId'],
+            'private_dns' => $instance['PrivateDnsName']
+        );
     }
 }
 
@@ -76,8 +79,12 @@ foreach ($ec2Instances['Reservations'] as $reservation) {
  */
 $mustache = new Mustache_Engine;
 $data = array(
-    'generation_time' => date('r')
+    'app' => array(
+        'generation_time' => date('r')
+    ),
+    'lsyncd' => $LSYNCD_CONF,
+    'slaves' => $slaves
 );
-
+print_r($data);
 $lsyncdConf = $mustache->render(file_get_contents($APP_CONF['lsyncd_conf_template']), $data);
 file_put_contents($APP_CONF['data_dir'] . 'lsyncd.conf.lua', $lsyncdConf);
