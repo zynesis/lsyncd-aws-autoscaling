@@ -1,5 +1,5 @@
 {
-    "hash": "5efdd8e08e78fe51a3eaaafdee815982",
+    "hash": "696416c2c11c0d76242b7bca2760bb72",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -152,6 +152,52 @@
             ]
         },
         {
+            "name": "liip/process-manager",
+            "version": "dev-master",
+            "target-dir": "Liip/ProcessManager",
+            "source": {
+                "type": "git",
+                "url": "git://github.com/liip/LiipProcessManager.git",
+                "reference": "09e62b977f3d368772e96dae3cb13a95bcbce487"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/liip/LiipProcessManager/zipball/09e62b977f3d368772e96dae3cb13a95bcbce487",
+                "reference": "09e62b977f3d368772e96dae3cb13a95bcbce487",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "time": "2012-10-07 18:07:54",
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Liip\\ProcessManager": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Community contributions",
+                    "homepage": "https://github.com/liip/LiipThemeBundle/contributors"
+                },
+                {
+                    "name": "Liip AG",
+                    "homepage": "http://www.liip.ch/"
+                }
+            ],
+            "description": "Provides a simple locking mechanism based on UNIX process id's written to a PID file.",
+            "keywords": [
+                "pid",
+                "locking",
+                "unix"
+            ]
+        },
+        {
             "name": "mustache/mustache",
             "version": "v2.1.0",
             "source": {
@@ -248,7 +294,7 @@
 
     ],
     "minimum-stability": "stable",
-    "stability-flags": [
-
-    ]
+    "stability-flags": {
+        "liip/process-manager": 20
+    }
 }

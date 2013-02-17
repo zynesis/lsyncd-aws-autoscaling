@@ -28,3 +28,17 @@ function hasSlavesChanged($slaves, $fileLocation)
     file_put_contents($fileLocation, serialize($slaves));
     return true;
 }
+
+
+/**
+ * Check if Lsyncd is still running fine
+ * 
+ * @param array $APP_CONF Application configuration
+ */
+function isLSyncdRunning($APP_CONF)
+{
+    $processManager = new ProcessManager();
+    $pid = $processManager->execProcess($APP_CONF['path_to_lsyncd'] . ' ' . $APP_CONF['data_dir'] . 'lsyncd.conf.lua');
+    echo $pid;
+    exit();
+}
