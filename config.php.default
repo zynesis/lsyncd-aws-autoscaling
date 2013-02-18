@@ -10,13 +10,15 @@
  * @license      MIT License
  */
  
+define('BASE_DIR', dirname(__FILE__).'/');
+
 /**
  * App (lsyncd-aws-autoscaling) configurations
  * Try to use absolute path for less ambiguitiy
  */
 $APP_CONF = array(
-    'data_dir' => 'data/',
-    'lsyncd_conf_template' => 'lsyncd.conf.lua.template',
+    'data_dir' => BASE_DIR . 'data/',
+    'lsyncd_conf_template' => BASE_DIR . 'lsyncd.conf.lua.template',
     'path_to_lsyncd' => 'lsyncd',
     //'dry_run' => true
 );
@@ -36,11 +38,11 @@ $AWS_CONF = array(
  * Lsyncd configurations
  */
 $LSYNCD_CONF = array(
-    'log_file' => '/tmp/lsyncd.log',
-    'status_file' => '/tmp/lsyncd.status',
-    'delay' => 0,                          // in seconds
+    'log_file' => BASE_DIR . 'data/lsyncd.log',
+    'status_file' => BASE_DIR . 'data/lsyncd.status',
+    'delay' => 0,       // in seconds, 0 for continuous monitoring
     'source' => '/path/to/source',
-    'ssh_user' => 'ubuntu',
+    'ssh_user' => 'www_user',
     'ssh_private_key' => '/path/to/private_key.pem',
     'target_dir' => '/path/to/target'
 );
