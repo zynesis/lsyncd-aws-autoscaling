@@ -46,7 +46,7 @@ if (empty($slavesIDs)) {
 
 if (!hasSlavesChanged($slavesIDs, $APP_CONF['data_dir'] . 'slaves')) {
     echo "No changes in slaves.\n";
-    keepLsyncdAlive();
+    keepLsyncdAlive($APP_CONF);
     exit();
 }
 
