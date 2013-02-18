@@ -38,20 +38,28 @@ function hasSlavesChanged($slaves, $fileLocation)
  *
  * @param array $APP_CONF Application configuration
  */
-function keepLSyncdAlive($APP_CONF)
+function keepLsyndAlive($APP_CONF)
 {
-    $lock = new PidFile(new ProcessManager(), $APP_CONF['data_dir'] . 'lsyncd.pid');
+    $processManager = new ProcessManager();
+    $pidFile = $APP_CONF['data_dir'] . 'lsyncd.pid';
     
-    if ($lock->isProcessRunning()) {
-        echo "Lsyncd is still running fine.\n";
-        return;
+    if (file_exists($pidFile)) {
+        $pid = file_get_contents($pidFile);
+        
+        if ($processManager->isProcessRunning($pid)) {
+            echo "Lsyncd is still running fine.\n";
+            return;
+        }
     }
-    
+
     echo "Lsyncd is not active.\n";
     echo "Starting Lsyncd.\n";
     
-    $lock->acquireLock();
-    $pid = $lock->execProcess($APP_CONF['path_to_lsyncd'] . ' ' . $APP_CONF['data_dir'] . 'lsyncd.conf.lua');
+    //$pid = $lock->execProcess($APP_CONF['path_to_lsyncd'] . ' ' . $APP_CONF['data_dir'] . 'lsyncd.conf.lua');
+    $pid = $processManager->execProcess('sleep 60');
+    file_put_contents($pidFile, $pid);
     
+    echo "Lsyncd started. Pid: $pid.\n";
+
     return;
 }
