@@ -1,5 +1,16 @@
 <?php
 /**
+ * lsyncd-aws-autoscaling
+ *
+ * Lsyncd auto configuration that works with Amazon Web Services (AWS) Auto Scaling
+ *
+ * @author       U-Zyn Chua <uzyn@zynesis.com>
+ * @copyright    Copyright © 2013 U-Zyn Chua & Zynesis Pte. Ltd.
+ * @link         http://zynesis.com
+ * @license      MIT License
+ */
+ 
+/**
  * App (lsyncd-aws-autoscaling) configurations
  * Try to use absolute path for less ambiguitiy
  */
