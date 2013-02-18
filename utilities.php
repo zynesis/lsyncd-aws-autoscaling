@@ -63,7 +63,7 @@ function keepLsyncdAlive($APP_CONF)
         $command = 'sleep 60';
     }
     
-    $pid = $lock->execProcess($command);
+    $pid = $processManager->execProcess($command);
     file_put_contents($pidFile, $pid);
     echo "Lsyncd started. Pid: $pid.\n";
 
