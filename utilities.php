@@ -4,13 +4,8 @@
  *
  * Lsyncd auto configuration that works with Amazon Web Services (AWS) Auto Scaling
  *
- * It does the following:
- * 1. Monitors auto scaled instances that are attached to a load balancer.
- * 2. Generates lsyncd.conf.lua, if there are changes in the attached instances.
- * 3. Monitors Lsyncd and make sure Lsyncd is always up and running
- *
  * @author       U-Zyn Chua <uzyn@zynesis.com>
- * @copyright    Copyright © 2013 U-Zyn Chua & Zynesis Pte. Ltd.
+ * @copyright    Copyright © 2013 U-Zyn Chua & Zynesis Pte Ltd
  * @link         http://zynesis.com
  * @license      MIT License
  */

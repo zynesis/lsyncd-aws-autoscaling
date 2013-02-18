@@ -1,5 +1,5 @@
 The MIT License
-Copyright © 2013 U-Zyn Chua & Zynesis Pte. Ltd. (http://zynesis.com)
+Copyright © 2013 U-Zyn Chua & Zynesis Pte Ltd (http://zynesis.com)
 
 Permission is hereby granted, free of charge, to any person obtaining a
 copy of this software and associated documentation files (the "Software"),
