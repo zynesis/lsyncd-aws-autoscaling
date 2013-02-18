@@ -91,4 +91,4 @@ file_put_contents($APP_CONF['data_dir'] . 'lsyncd.conf.lua', $lsyncdConf);
 
 echo "New configuration file generated at " . $APP_CONF['data_dir'] . "lsyncd.conf.lua\n";
 echo "Restart Lsyncd\n";
-restartLsyncd();
+restartLsyncd($APP_CONF);

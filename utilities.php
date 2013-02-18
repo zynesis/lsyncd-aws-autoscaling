@@ -78,7 +78,8 @@ function restartLsyncd($APP_CONF)
     startLsyncd($APP_CONF);
 }
 
-function startLsyncd($APP_CONF) {
+function startLsyncd($APP_CONF)
+{
     $processManager = new ProcessManager();
     $pidFile = $APP_CONF['data_dir'] . 'lsyncd.pid';
     
