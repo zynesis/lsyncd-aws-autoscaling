@@ -38,7 +38,7 @@ function hasSlavesChanged($slaves, $fileLocation)
  *
  * @param array $APP_CONF Application configuration
  */
-function keepLsyndAlive($APP_CONF)
+function keepLsyncdAlive($APP_CONF)
 {
     $processManager = new ProcessManager();
     $pidFile = $APP_CONF['data_dir'] . 'lsyncd.pid';
