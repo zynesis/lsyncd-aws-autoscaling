@@ -1,12 +1,24 @@
 <?php
 /**
- * App configurations
+ * App (lsyncd-aws-autoscaling) configurations
+ * Try to use absolute path for less ambiguitiy
+ */
+$APP_CONF = array(
+    'data_dir' => 'data/',
+    'lsyncd_conf_template' => 'lsyncd.conf.lua.template',
+    'path_to_lsyncd' => 'lsyncd',
+    //'dry_run' => true
+);
+
+/**
+ * AWS configurations
  */
 $AWS_CONF = array(
     'key' => 'AWS Access Key ID',
     'secret' => 'AWS Secret Key',
     'region' => 'ap-southeast-1',
-    'load_balancer_name' => 'name of load balancer'
+    'load_balancer_name' => 'name of load balancer',
+    'master_ec2_instance_id' => 'i-xxxxxxxx'
 );
 
 /**
@@ -19,5 +31,5 @@ $LSYNCD_CONF = array(
     'source' => '/path/to/source',
     'ssh_user' => 'ubuntu',
     'ssh_private_key' => '/path/to/private_key.pem',
-    'target_dir' => '/path/to/target',
+    'target_dir' => '/path/to/target'
 );
