@@ -3,3 +3,4 @@ lsyncd.conf.lua
 config.php
 vendor/
 data/
+test.php

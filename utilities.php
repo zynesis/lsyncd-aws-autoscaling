@@ -57,7 +57,31 @@ function keepLsyncdAlive($APP_CONF)
 
     echo "Lsyncd is not active.\n";
     echo "Starting Lsyncd.\n";
- 
+    startLsyncd($APP_CONF);
+}
+
+function restartLsyncd($APP_CONF)
+{
+    $processManager = new ProcessManager();
+    $pidFile = $APP_CONF['data_dir'] . 'lsyncd.pid';
+    
+    if (file_exists($pidFile)) {
+        $pid = file_get_contents($pidFile);
+        
+        if ($processManager->isProcessRunning($pid)) {
+            echo "Stopping existing Lsyncd.\n";
+            $processManager->killProcess($pid);
+        }
+    }
+    
+    echo "Starting Lsyncd.\n";
+    startLsyncd($APP_CONF);
+}
+
+function startLsyncd($APP_CONF) {
+    $processManager = new ProcessManager();
+    $pidFile = $APP_CONF['data_dir'] . 'lsyncd.pid';
+    
     $command = $APP_CONF['path_to_lsyncd'] . ' ' . $APP_CONF['data_dir'] . 'lsyncd.conf.lua';
     if (isset($APP_CONF['dry_run']) && $APP_CONF['dry_run']) {
         $command = 'sleep 60';
