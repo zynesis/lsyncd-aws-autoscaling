@@ -80,7 +80,7 @@ foreach ($ec2Instances['Reservations'] as $reservation) {
     foreach ($instances as $instance) {
         $slaves[] = array(            
             'instance_id' => $instance['InstanceId'],
-            'private_dns' => $instance['PrivateDnsName']
+            'private_ip_address' => $instance['PrivateIpAddress']
         );
     }
 }

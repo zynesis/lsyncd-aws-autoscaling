@@ -13,7 +13,7 @@ sync {
     default.rsync,
     delay = {{lsyncd.delay}},
     source = "{{lsyncd.source}}", 
-    target = "{{lsyncd.ssh_user}}@{{private_dns}}:{{lsyncd.target_dir}}",
+    target = "{{lsyncd.ssh_user}}@{{private_ip_address}}:{{lsyncd.target_dir}}",
     rsyncOps = {"-e", "ssh -i {{lsyncd.ssh_private_key}} -o StrictHostKeyChecking=no"}
 }
 {{/slaves}}
