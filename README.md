@@ -17,7 +17,7 @@ Lsyncd-AWS-AutoScaling requires the following to be set up and running on your m
 1. [lsyncd](https://github.com/axkibe/lsyncd) is set up on your master.
 1. Passwordless SSH is possible from master to slave via the use of a private key.
 
-This project is tested on Lsyncd v2.0 and on Ubuntu 12.04.1 LTS instances.
+This project is tested on Lsyncd v2.0.7 and on Ubuntu 12.04.1 LTS instances.
 
 ##Set Up
 
@@ -39,10 +39,10 @@ It is recommended to set it to run via crontab to ensure that it is run periodic
 This is a rough project that solves our specific problems and may not work with other set-ups. Not a lot of effort was spent in generalizing this project. Pull requests are welcomed.
 
 ##Consulting
-Zynesis Pte Ltd is a [Consulting Partner of Amazon Web Services](https://aws.amazon.com/solution-providers/si/zynesis-consulting).   
-[Drop us a mail](mailto:nihao@zynesis.com) if you require any AWS consultations.  
+Zynesis Pte Ltd is a [Consulting Partner of Amazon Web Services](https://aws.amazon.com/solution-providers/si/zynesis-consulting).
+[Drop us a mail](mailto:nihao@zynesis.com) if you require any AWS consultations.
 Follow U-Zyn Chua [on Twitter](http://twitter.com/uzyn) or [on GitHub](http://github.com/uzyn).
 
 ##License
-The MIT License  
+The MIT License
 Copyright © 2013 U-Zyn Chua & Zynesis Pte Ltd (http://zynesis.com)
