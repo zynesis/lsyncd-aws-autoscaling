@@ -12,8 +12,8 @@ settings = {
 sync {
     default.rsync,
     delay = {{lsyncd.delay}},
-    source = "{{lsyncd.source}}", 
+    source = "{{lsyncd.source}}",
     target = "{{lsyncd.ssh_user}}@{{private_ip_address}}:{{lsyncd.target_dir}}",
-    rsyncOps = {"-e", "ssh -i {{lsyncd.ssh_private_key}} -o StrictHostKeyChecking=no"}
+    rsyncOpts = {"-p", "-e", "ssh -i {{lsyncd.ssh_private_key}} -o StrictHostKeyChecking=no"}
 }
 {{/slaves}}
