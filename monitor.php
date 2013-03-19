@@ -64,43 +64,8 @@ if (!hasSlavesChanged($slavesIDs, $APP_CONF['data_dir'] . 'slaves')) {
 
 echo "There are changes in slaves.\n";
 
-$ec2Client = $aws->get('Ec2');
-
-$ec2Instances = $ec2Client->describeInstances(array('InstanceIds' => $slavesIDs));
-
-if (empty($ec2Instances)) {
-    trigger_error('Unable to obtain description of slave EC2 instances.', E_USER_ERROR);
-}
-
-$slaves = array();
-
-foreach ($ec2Instances['Reservations'] as $reservation) {
-    $instances = $reservation['Instances'];
-    
-    foreach ($instances as $instance) {
-        $slaves[] = array(            
-            'instance_id' => $instance['InstanceId'],
-            'private_ip_address' => $instance['PrivateIpAddress']
-        );
-    }
-}
-
-
-/**
- * Generate lsyncd.conf.lua
- */
-$mustache = new Mustache_Engine;
-$data = array(
-    'app' => array(
-        'generation_time' => date('r')
-    ),
-    'lsyncd' => $LSYNCD_CONF,
-    'slaves' => $slaves
-);
-
-$lsyncdConf = $mustache->render(file_get_contents($APP_CONF['lsyncd_conf_template']), $data);
-file_put_contents($APP_CONF['data_dir'] . 'lsyncd.conf.lua', $lsyncdConf);
-
+reloadConfig($APP_CONF, $LSYNCD_CONF, $AWS_CONF, $slavesIDs);
 echo "New configuration file generated at " . $APP_CONF['data_dir'] . "lsyncd.conf.lua\n";
+
 echo "Restart Lsyncd\n";
 restartLsyncd($APP_CONF);
