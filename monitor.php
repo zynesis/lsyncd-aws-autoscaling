@@ -64,9 +64,7 @@ if (!hasSlavesChanged($slavesIDs, $APP_CONF['data_dir'] . 'slaves')) {
 
 echo "There are changes in slaves.\n";
 
-$scriptConfig = null;
 $toRun = null;
-
 if (isset($APP_CONF['remote_script']['enabled']) && $APP_CONF['remote_script']['enabled']) {
     $scriptConfig = $APP_CONF['remote_script'];
     echo "Remote script execution is enabled.\n";
@@ -106,6 +104,18 @@ foreach ($ec2Instances['Reservations'] as $reservation) {
     }
 }
 
+/**
+ * Run remote script on slaves
+ */
+if (!empty($toRun)) {
+    foreach ($slaves as $slave) {
+        if (in_array($slave['instance_id'], $toRun)) {
+            echo "Executing remote script at instance $slave[instance_id] ($slave[private_ip_address]) ...\n";
+            $command = 'cat ' . $APP_CONF['remote_script']['local_path'] . ' | ssh -i ' . $LSYNCD_CONF['ssh_private_key'] . ' ' . $LSYNCD_CONF['ssh_user'] . '@' . $slave['private_ip_address'];
+            passthru($command);
+        }
+    }
+}
 
 /**
  * Generate lsyncd.conf.lua
