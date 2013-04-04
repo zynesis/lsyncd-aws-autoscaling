@@ -9,62 +9,60 @@
  * @link         http://zynesis.com
  * @license      MIT License
  */
- 
+
 use Liip\ProcessManager\ProcessManager;
-
-/**
- * Gets the list of slaves previously recorded.
- *
- * @param string $fileLocation Location of file storing slaves configuration
- * @return array
- */
-function getSlaves($fileLocation)
-{
-  $old = array();
-  if (file_exists($fileLocation)) {
-    $old = unserialize(file_get_contents($fileLocation));
-  }
-  return $old;
-}
-
-/**
- * Records a list of slaves.
- *
- * @param array $slaves A list of slave identifiers
- * @param string $fileLocation Location of file storing slaves configuration
- */
-function setSlaves(array $slaves, $fileLocation) {
-  if (!is_writable($fileLocation)) {
-    trigger_error($fileLocation . ' is not writable.', E_USER_ERROR);
-  }
-  file_put_contents($fileLocation, serialize($slaves));
-}
 
 /**
  * Check if the slaves fingerprint has changed.
  *
  * @param array $slaves Array of slaves with EC2 instance ID as array key
- * @param string $fileLocation Location of file storing slaves configuration
- * @see getSlaves().
- * @see setSlaves().
+ * @param string $fileLocation Location of file storing slaves fingerprint
  * @return boolean
  */
-function hasSlavesChanged($slaves, $fileLocation) 
+function hasSlavesChanged($slaves, $fileLocation)
 {
-    $old = getSlaves($fileLocation);
-    
+    $old = getSavedSlaves($fileLocation);
     sort($old);
     sort($slaves);
-    
+
     if ($old == $slaves) {
         return false;
     }
 
-    setSlaves($slaves, $fileLocation);
-
     return true;
 }
 
+/**
+ * Save the latest slaves fingerprint
+ *
+ * @param array $slaves Array of slaves with EC2 instance ID as array key
+ * @param string $fileLocation Location of file storing slaves fingerprint
+ * @return boolean
+ */
+function saveSlaves($slaves, $fileLocation)
+{
+    if (file_exists($fileLocation) && !is_writable($fileLocation)) {
+        trigger_error($fileLocation . ' is not writable.', E_USER_ERROR);
+    }
+
+    return file_put_contents($fileLocation, serialize($slaves));
+}
+
+/**
+ * Read and return last saved slaves fingerprint from $fileLocation
+ *
+ * @param string $fileLocation Location of file storing slaves fingerprint
+ * @return array Array containing slave IDs
+ */
+function getSavedSlaves($fileLocation)
+{
+    $old = array();
+    if (file_exists($fileLocation)) {
+        $old = unserialize(file_get_contents($fileLocation));
+    }
+
+    return $old;
+}
 
 /**
  * Check if Lsyncd is still alive
@@ -77,12 +75,12 @@ function keepLsyncdAlive($APP_CONF)
 {
     $processManager = new ProcessManager();
     $pidFile = $APP_CONF['data_dir'] . 'lsyncd.pid';
-    
+
     echo "Checking if Lsyncd is still running.\n";
-    
+
     if (file_exists($pidFile)) {
         $pid = file_get_contents($pidFile);
-        
+
         if ($processManager->isProcessRunning($pid)) {
             echo "Lsyncd is still running fine.\n";
             return;
@@ -98,16 +96,16 @@ function restartLsyncd($APP_CONF)
 {
     $processManager = new ProcessManager();
     $pidFile = $APP_CONF['data_dir'] . 'lsyncd.pid';
-    
+
     if (file_exists($pidFile)) {
         $pid = file_get_contents($pidFile);
-        
+
         if ($processManager->isProcessRunning($pid)) {
             echo "Stopping existing Lsyncd.\n";
             $processManager->killProcess($pid);
         }
     }
-    
+
     echo "Starting Lsyncd.\n";
     startLsyncd($APP_CONF);
 }
@@ -116,12 +114,12 @@ function startLsyncd($APP_CONF)
 {
     $processManager = new ProcessManager();
     $pidFile = $APP_CONF['data_dir'] . 'lsyncd.pid';
-    
+
     $command = $APP_CONF['path_to_lsyncd'] . ' ' . $APP_CONF['data_dir'] . 'lsyncd.conf.lua';
     if (isset($APP_CONF['dry_run']) && $APP_CONF['dry_run']) {
         $command = 'sleep 60';
     }
-    
+
     $pid = $processManager->execProcess($command);
     file_put_contents($pidFile, $pid);
     echo "Lsyncd started. Pid: $pid.\n";

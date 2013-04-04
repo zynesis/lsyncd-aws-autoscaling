@@ -9,7 +9,7 @@
  * @link         http://zynesis.com
  * @license      MIT License
  */
- 
+
 define('BASE_DIR', dirname(__FILE__).'/');
 
 /**
@@ -20,7 +20,21 @@ $APP_CONF = array(
     'data_dir' => BASE_DIR . 'data/',
     'lsyncd_conf_template' => BASE_DIR . 'lsyncd.conf.lua.template',
     'path_to_lsyncd' => 'lsyncd',
-    //'dry_run' => true
+    //'dry_run' => true,
+
+    /**
+     * Run script (located locally) on slaves
+     * @param boolean enabled Whether script should be run on slaves
+     * @param string local_path Local path to the script
+     * @param boolean run_script_on_all_slaves
+     *                true: run remote_script on all slaves whenever there are changes in slaves
+     *                false: run remote_script only on newly discovered slaves
+     */
+    'remote_script' => array(
+        'enabled' => false,
+        'local_path' => BASE_DIR . 'data/remote-script.sh',
+        'run_script_on_all_slaves' => false,
+    )
 );
 
 /**
