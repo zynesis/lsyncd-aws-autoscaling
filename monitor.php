@@ -8,7 +8,7 @@
  * It does the following:
  * 1. Monitors auto scaled instances that are attached to a load balancer.
  * 2. Automatically configures Lsyncd to sync across all attached instances to a load balancer.
- * 3. Monitors Lsyncd and make sure Lsyncd is always up and running, while Lsyncd does the 
+ * 3. Monitors Lsyncd and make sure Lsyncd is always up and running, while Lsyncd does the
  *    syncing of files from master to auto-scaled slaves.
  *
  * @author       U-Zyn Chua <uzyn@zynesis.com>
@@ -76,9 +76,9 @@ $slaves = array();
 
 foreach ($ec2Instances['Reservations'] as $reservation) {
     $instances = $reservation['Instances'];
-    
+
     foreach ($instances as $instance) {
-        $slaves[] = array(            
+        $slaves[] = array(
             'instance_id' => $instance['InstanceId'],
             'private_ip_address' => $instance['PrivateIpAddress']
         );
