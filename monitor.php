@@ -64,6 +64,27 @@ if (!hasSlavesChanged($slavesIDs, $APP_CONF['data_dir'] . 'slaves')) {
 
 echo "There are changes in slaves.\n";
 
+$scriptConfig = null;
+$toRun = null;
+
+if (isset($APP_CONF['remote_script']['enabled']) && $APP_CONF['remote_script']['enabled']) {
+    $scriptConfig = $APP_CONF['remote_script'];
+    echo "Remote script execution is enabled.\n";
+
+    if (!is_readable($scriptConfig['local_path'])) {
+        trigger_error('Remote script is not present or readable at ' . $scriptConfig['local_path']);
+    }
+
+    $toRun = $slavesIDs;
+    if ($APP_CONF['remote_script']['run_script_on_all_slaves'] === false) {
+        $oldSlaves = getSavedSlaves($APP_CONF['data_dir'] . 'slaves');
+        $toRun = array_diff($slavesIDs, $oldSlaves);
+    }
+
+}
+
+saveSlaves($slavesIDs, $APP_CONF['data_dir'] . 'slaves');
+
 $ec2Client = $aws->get('Ec2');
 
 $ec2Instances = $ec2Client->describeInstances(array('InstanceIds' => $slavesIDs));

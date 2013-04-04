@@ -16,20 +16,12 @@ use Liip\ProcessManager\ProcessManager;
  * Check if slaves fingerprint has changed
  *
  * @param array $slaves Array of slaves with EC2 instance ID as array key
- * @param string $fileLocation Location of file storing slaves configuration
+ * @param string $fileLocation Location of file storing slaves fingerprint
  * @return boolean
  */
 function hasSlavesChanged($slaves, $fileLocation)
 {
-    $old = array();
-    if (file_exists($fileLocation)) {
-        $old = unserialize(file_get_contents($fileLocation));
-
-        if (!is_writable($fileLocation)) {
-            trigger_error($fileLocation . ' is not writable.', E_USER_ERROR);
-        }
-    }
-
+    $old = getSavedSlaves($fileLocation);
     sort($old);
     sort($slaves);
 
@@ -37,8 +29,39 @@ function hasSlavesChanged($slaves, $fileLocation)
         return false;
     }
 
-    file_put_contents($fileLocation, serialize($slaves));
     return true;
+}
+
+/**
+ * Save the latest slaves fingerprint
+ *
+ * @param array $slaves Array of slaves with EC2 instance ID as array key
+ * @param string $fileLocation Location of file storing slaves fingerprint
+ * @return boolean
+ */
+function saveSlaves($slaves, $fileLocation)
+{
+    if (file_exists($fileLocation) && !is_writable($fileLocation)) {
+        trigger_error($fileLocation . ' is not writable.', E_USER_ERROR);
+    }
+
+    return file_put_contents($fileLocation, serialize($slaves));
+}
+
+/**
+ * Read and return last saved slaves fingerprint from $fileLocation
+ *
+ * @param string $fileLocation Location of file storing slaves fingerprint
+ * @return array Array containing slave IDs
+ */
+function getSavedSlaves($fileLocation)
+{
+    $old = array();
+    if (file_exists($fileLocation)) {
+        $old = unserialize(file_get_contents($fileLocation));
+    }
+
+    return $old;
 }
 
 /**
