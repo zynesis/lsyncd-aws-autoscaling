@@ -43,6 +43,9 @@ Zynesis Pte Ltd is a [Consulting Partner of Amazon Web Services](https://aws.ama
 [Drop us a mail](mailto:nihao@zynesis.com) if you require any AWS consultations.
 Follow U-Zyn Chua [on Twitter](http://twitter.com/uzyn) or [on GitHub](http://github.com/uzyn).
 
+##Sponsor
+This project is made possible by the generous sponsorship of [Teamie](https://theteamie.com) – The Collaborative Learning Network.
+
 ##License
 The MIT License
 Copyright © 2013 U-Zyn Chua & Zynesis Pte Ltd (http://zynesis.com)
