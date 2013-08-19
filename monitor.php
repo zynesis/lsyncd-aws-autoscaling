@@ -133,5 +133,6 @@ $lsyncdConf = $mustache->render(file_get_contents($APP_CONF['lsyncd_conf_templat
 file_put_contents($APP_CONF['data_dir'] . 'lsyncd.conf.lua', $lsyncdConf);
 
 echo "New configuration file generated at " . $APP_CONF['data_dir'] . "lsyncd.conf.lua\n";
+
 echo "Restart Lsyncd\n";
 restartLsyncd($APP_CONF);

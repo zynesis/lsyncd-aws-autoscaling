@@ -4,3 +4,5 @@ config.php
 vendor/
 data/
 test.php
+# PHP Storm
+.idea
